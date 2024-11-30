@@ -4,6 +4,7 @@ import com.ifortex.bookservice.dto.SearchCriteria;
 import com.ifortex.bookservice.model.Book;
 import com.ifortex.bookservice.service.BookService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,15 +17,15 @@ import java.util.Map;
 @AllArgsConstructor
 public class BookController {
 
-  private final BookService bookService;
+  @Qualifier("ISBookService") private final BookService isBookService;
 
-  @GetMapping("statistic")
+  @GetMapping("/statistic")
   public Map<String, Long> getStatistic() {
-    return bookService.getBooks();
+    return isBookService.getBooks();
   }
 
   @GetMapping("search")
   public List<Book> findBooks(@RequestBody @Nullable SearchCriteria searchCriteria) {
-    return bookService.getAllByCriteria(searchCriteria);
+    return isBookService.getAllByCriteria(searchCriteria);
   }
 }
