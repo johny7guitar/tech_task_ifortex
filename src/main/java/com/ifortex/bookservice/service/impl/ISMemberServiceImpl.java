@@ -19,6 +19,9 @@ public class ISMemberServiceImpl implements MemberService{
     @Value("${service.book.query.romance_lover}")
     private String findRomanceLoverSql;
 
+    @Value("${service.book.query.no_books}")
+    private String noBooksMemberSql;
+
     private final JdbcTemplate jdbcTemplate;
 
     @Override
@@ -28,6 +31,6 @@ public class ISMemberServiceImpl implements MemberService{
 
     @Override
     public List<Member> findMembers(){
-        return List.of();
+        return jdbcTemplate.query(noBooksMemberSql, new BeanPropertyRowMapper<>(Member.class));
     }
 }
