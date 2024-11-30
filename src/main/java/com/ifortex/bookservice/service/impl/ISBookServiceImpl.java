@@ -3,6 +3,8 @@ package com.ifortex.bookservice.service.impl;
 import com.ifortex.bookservice.dto.SearchCriteria;
 import com.ifortex.bookservice.model.Book;
 import com.ifortex.bookservice.service.BookService;
+import com.ifortex.bookservice.utils.BookPropertyRowMapper;
+import com.ifortex.bookservice.utils.BookSearchQueryUtil;
 import com.ifortex.bookservice.utils.StatisticMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,6 +22,8 @@ public class ISBookServiceImpl implements BookService{
 
     private final JdbcTemplate jdbcTemplate;
     private final StatisticMapper statisticMapper;
+    private final BookPropertyRowMapper bookPropertyRowMapper;
+    private final BookSearchQueryUtil bookSearchQueryUtil;
 
     @Value("${service.book.query.statistic}")
     private String statisticsQuery;
@@ -35,7 +39,7 @@ public class ISBookServiceImpl implements BookService{
 
     @Override
     public List<Book> getAllByCriteria(SearchCriteria searchCriteria){
-        return List.of();
+        return jdbcTemplate.query(bookSearchQueryUtil.getQuery(searchCriteria), bookPropertyRowMapper);
     }
 
 }
